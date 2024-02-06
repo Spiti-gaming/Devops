@@ -79,7 +79,9 @@ jobs:
         with:
           context: ./${{ matrix.project }}
           platforms: ${{ matrix.platform }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}:latest
           outputs: type=image,name=${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=${{github.ref == 'refs/heads/master'}}
 
 
