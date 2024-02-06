@@ -17,13 +17,15 @@ services:
             - database
 
     httpd:
-        image: spitii/devops-httpd:1.0
+        build: ./httpd
         ports:
             - "80:80"
         networks:
             - my-network
         depends_on:
             - backend
+        environment:
+            - URL="https://localhost:443"
 
 networks:
     my-network:
