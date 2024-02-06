@@ -49,8 +49,9 @@ jobs:
           - httpd
     # steps to perform in job
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -64,7 +65,11 @@ jobs:
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}:latest
           # build on feature branches, push only on master branch
           platforms: ${{ matrix.platform }}
-          outputs: type=image,name=${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=true
+          name: ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}
+          type: image
+          push-by-digest: true
+          name-canonical: true
+          push: true
 
       - name: Export digest
         run: |
