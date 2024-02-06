@@ -80,21 +80,21 @@ jobs:
           context: ./${{ matrix.project }}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=false
 
 
 
       - name: Export digest
         run: |
-          mkdir -p /tmp/digests/${{ matrix.project }}
+          mkdir -p /tmp/digests
           digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${{ matrix.project }}/${digest#sha256:}"   
+          touch "/tmp/digests/${digest#sha256:}"   
 
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}
-          path: /tmp/digests/${{ matrix.project }}/*
+          name: digests-${{ matrix.project }}-${{ env.PLATFORM_PAIR }}
+          path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
 
@@ -130,7 +130,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Create manifest list and push
-        working-directory: /tmp/digests/${{ matrix.project }}
+        working-directory: /tmp/digests
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}@sha256:%s ' *)
