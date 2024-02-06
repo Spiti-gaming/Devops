@@ -71,7 +71,7 @@ jobs:
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}:latest
           # build on feature branches, push only on master branch
           platforms: ${{ matrix.platform }}
-          outputs: type=image,name=spitii/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=spitii/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=false
 
 
 
