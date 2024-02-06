@@ -62,6 +62,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build image and push backend
+        id: build
         uses: docker/build-push-action@v5
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -70,15 +71,14 @@ jobs:
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}:latest
           # build on feature branches, push only on master branch
           platforms: ${{ matrix.platform }}
-          type: image
-          push-by-digest: true
-          name-canonical: true
-          push: false
+          outputs: type=image,name=spitii/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=true
+
+
 
       - name: Export digest
         run: |
           mkdir -p /tmp/digests/${{ matrix.project }}
-          digest="${{ steps.build-docker-image.outputs.digest }}"
+          digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${{ matrix.project }}/${digest#sha256:}"   
 
       - name: Upload digest
