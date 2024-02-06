@@ -31,11 +31,18 @@ Create a Docker network (if not already created):
 docker network create app-network
 ```
 
+Create a Docker volume (if not already created):
+
+```bash
+docker volume create TP1DB
+```
+
 Run the PostgresSQL container:
 
 ```bash
 docker run -d \
 --net=app-network \
+ -v TP1DB:/var/lib/postgresql/data \
 --name=database \
 spitii/devops-database:latest
 ```
