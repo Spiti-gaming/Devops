@@ -295,3 +295,48 @@ You have another alternative of apache. Like caddy, these tools have auto https 
 For the following element, you have the accessible docker compose in that repository. 
 
 And all the images are accessible on https://hub.docker.com/repositories/spitii
+
+
+## GitHub action Part (Day 2)
+
+### org.testcontainers
+
+The test containers is a light environment,  
+it helps to provide a light environment for the test.  
+In your case, it provides a light postgres docker image for junit test.
+
+## GitHub action test pipeline
+
+The test pipeline like : 
+```yml
+name: CI devops 2023
+on:
+  #to begin you want to launch this job in main and develop
+  push:
+    branches: ["master"]
+  pull_request:
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-22.04
+    steps:
+      #checkout your github code using actions/checkout@v2.5.0
+      - uses: actions/checkout@v2.5.0
+
+      #do the same with another action (actions/setup-java@v3) that enable to setup jdk 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+            cache: 'maven'
+            distribution: 'temurin'
+            java-version: '17'
+      #finally build your app with the latest command
+      - name: Build and test with Maven
+        run: mvn clean verify --file Backend_2.0/pom.xml
+```
+
+Provide test on push in master and on any pull_request.  
+For more security, you can lock master for hard push.  
+
+It uses the temurin version of jdk 17 with maven.  
+And execute test on the Backend_2.0
