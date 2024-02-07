@@ -7,3 +7,8 @@
     networks:
       - name: DataBase
       - name: Back-end
+    env:
+      DB_URL: "database"
+      DB_NAME: "db"
+      DB_USER: "usr"
+      DB_PASS: "pwd"

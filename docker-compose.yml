@@ -23,15 +23,21 @@ services:
             - "80:80"
         networks:
             - my-network
+        environment:
+            - URL=http://localhost:80
+            - FRONTEND_NAME=frontend
+            - BACKEND_NAME=backend
 
     frontend:
         build: ./frontend
         networks:
             - my-network
         ports:
-            - "8080:80"
+            - "8090:80"
         depends_on:
             - httpd
+        environment:
+            - VUE_APP_API_URL=http://localhost:80/api
 
 networks:
     my-network:

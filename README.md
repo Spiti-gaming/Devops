@@ -70,7 +70,7 @@ User and password are defined in the Dockerfile.
 ### Documenting Database Container Essentials
 Commands:
 ```bash
-docker build -t spitii/devops-database:latest Postgre # Builds the Docker image using the provided caddy.Dockerfile.
+docker build -t spitii/devops-database:latest Postgre # Builds the Docker image using the provided caddy.httpd.Dockerfile.
 docker network create app-network # Creates a Docker network named app-network if it doesn't already exist.
 docker run ... # Runs the PostgresSQL container with appropriate options for port binding, network connection, and volume mounting.
 docker restart adminer # Restarts the Adminer container if needed.

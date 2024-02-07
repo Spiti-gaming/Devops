@@ -3,14 +3,9 @@ https_port 443
 key_type rsa4096
 }
 {$URL} {
-
-     route /api/* {
-     	uri strip_prefix /api
-     	reverse_proxy backend:8080
-     }
-     reverse_proxy frontend:80
-}
-
-http://127.0.0.1:80 {
-    reverse_proxy frontend:80
+    route /api/* {
+         	uri strip_prefix /api
+         	reverse_proxy /* {$BACKEND_NAME}:8080
+    }
+    reverse_proxy /* {$FRONTEND_NAME}:80
 }

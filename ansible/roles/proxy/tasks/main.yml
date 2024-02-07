@@ -9,3 +9,7 @@
       - name: Front-end
     ports:
       - "80:80"
+    env:
+      URL: "http://matthieu.lapetitte.takima.cloud:80"
+      FRONTEND_NAME: "frontend"
+      BACKEND_NAME: "backend"

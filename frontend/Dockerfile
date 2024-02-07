@@ -14,6 +14,15 @@ RUN npm run build
 
 FROM nginx:1.15.7-alpine
 
-ENV URL="localhost:8080"
 COPY --from=build /opt/front/dist /usr/share/nginx/html/
 COPY --from=build /opt/front/default.conf /etc/nginx/conf.d/default.conf
+
+# Running the script at container run
+COPY ./substitute_environment_variables.sh /substitute_environment_variables.sh
+RUN chmod +x /substitute_environment_variables.sh
+
+CMD ["/substitute_environment_variables.sh"]
+
+
+
+
