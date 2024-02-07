@@ -39,7 +39,6 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}
-          tag-custom: latest
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
