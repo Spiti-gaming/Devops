@@ -15,10 +15,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+          - linux/ppc64le
+          - linux/s390x
         project:
           - backend
           - database
           - httpd
+          - frontend
     # steps to perform in job
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +57,8 @@ jobs:
         with:
           context: ./${{ matrix.project }}
           platforms: ${{ matrix.platform }}
-          labels: ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=${{github.ref == 'refs/heads/master'}}
 
 
