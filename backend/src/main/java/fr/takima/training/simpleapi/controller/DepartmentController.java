@@ -22,7 +22,7 @@ public class DepartmentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<Object> getDepartments() {
         return ResponseEntity.ok(departmentService.getDepartments());
     }

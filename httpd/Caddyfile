@@ -8,5 +8,9 @@ key_type rsa4096
      	uri strip_prefix /api
      	reverse_proxy backend:8080
      }
-     reverse_proxy frontend:8080
+     reverse_proxy frontend:80
+}
+
+http://127.0.0.1:80 {
+    reverse_proxy frontend:80
 }
