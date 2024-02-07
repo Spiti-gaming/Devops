@@ -1,8 +1,8 @@
-name: CI prod docker push
+name: CI prod deploy to server
 on:
   #to begin you want to launch this job in main and develop
   workflow_run:
-    workflows: [ "CI test" ]
+    workflows: [ "CI prod docker push" ]
     types: [ completed ]
     branches:
       - 'master'
