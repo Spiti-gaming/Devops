@@ -9,6 +9,8 @@
       - name: Front-end
     ports:
       - "80:80"
+    volumes:
+      - "Caddy:/config"
     env:
       URL: "https://matthieu.lapetitte.takima.cloud:443"
       FRONTEND_NAME: "frontend"
