@@ -117,4 +117,4 @@ jobs:
             $(printf '${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}@sha256:%s ' *)
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}:latest
+          docker buildx imagetools inspect ${{ steps.meta.outputs.tags }}
