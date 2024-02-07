@@ -39,6 +39,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}
+          tag-custom: latest
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -58,6 +59,7 @@ jobs:
           context: ./${{ matrix.project }}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
           outputs: type=image,name=${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }},push-by-digest=true,name-canonical=true,push=${{github.ref == 'refs/heads/master'}}
 
 
@@ -88,6 +90,7 @@ jobs:
           - backend
           - database
           - httpd
+          - frontend
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
@@ -103,6 +106,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{secrets.DOCKERHUB_USERNAME}}/devops-${{ matrix.project }}
+          tag-custom: latest
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
