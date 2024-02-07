@@ -1,0 +1,8 @@
+- name: Deploy FrontEnd
+  docker_container:
+    name: frontend
+    image: spitii/devops-frontend:master
+    recreate: true
+    pull: true
+    networks:
+      - name: Front-end

@@ -1,0 +1,10 @@
+- name: Deploy Database
+  docker_container:
+    name: database
+    image: spitii/devops-database:master
+    recreate: true
+    pull: true
+    networks:
+      - name: DataBase
+    volumes:
+      - "DataBase:/var/lib/postgresql/data"

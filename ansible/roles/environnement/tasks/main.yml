@@ -1,0 +1,15 @@
+- name: Create Database Volume
+  docker_volume:
+    name: DataBase
+
+- name: Create Database network
+  docker_network:
+    name: DataBase
+
+- name: Create Back-end network
+  docker_network:
+    name: Back-end
+
+- name: Create Front-end network
+  docker_network:
+    name: Front-end

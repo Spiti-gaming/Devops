@@ -1,0 +1,9 @@
+- name: Deploy Backend
+  docker_container:
+    name: backend
+    image: spitii/devops-backend:master
+    recreate: true
+    pull: true
+    networks:
+      - name: DataBase
+      - name: Back-end

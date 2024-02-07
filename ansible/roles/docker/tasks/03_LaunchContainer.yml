@@ -1,0 +1,30 @@
+- name: Deploy Database
+  docker_container:
+    name: database
+    image: spitii/devops-database:master
+    recreate: true
+    networks:
+      - name: DataBase
+    volumes:
+      - "DataBase:/var/lib/postgresql/data"
+
+- name: Deploy Backend
+  docker_container:
+    name: backend
+    image: spitii/devops-backend:master
+    recreate: true
+    networks:
+      - name: DataBase
+      - name: Back-end
+
+- name: Deploy Proxy
+  docker_container:
+    name: httpd
+    image: spitii/devops-backend:master
+    recreate: true
+    networks:
+      - name: Back-end
+    ports:
+      - "443:443"
+    env:
+      - URL="https://matthieu.lapetitte.takima.cloud:443" 

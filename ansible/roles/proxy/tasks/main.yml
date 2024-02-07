@@ -1,0 +1,11 @@
+- name: Deploy Proxy
+  docker_container:
+    name: httpd
+    image: spitii/devops-httpd:master
+    recreate: true
+    pull: true
+    networks:
+      - name: Back-end
+      - name: Front-end
+    ports:
+      - "80:80"
