@@ -340,3 +340,94 @@ For more security, you can lock master for hard push.
 
 It uses the temurin version of jdk 17 with maven.  
 And execute test on the Backend_2.0
+
+## Ansible
+
+In that ansible project you have only one machine with id-rsa. 
+
+That machine inventory is : 
+centos@matthieu.lapetitte.takima.cloud
+
+The arguments -i in command permit you to pass the inventory file. 
+
+```yml
+- hosts: all # select all elements in inventories
+  gather_facts: false # Disables facts gathering at the start.
+  become: true  # Sets the execution privilege to super user ('become' is equivalent to 'sudo').
+
+# Install Docker
+  tasks:
+
+  # Installs device-mapper-persistent-data and lvm2 using YUM, 
+  # making sure they are the latest versions.
+  - name: Install device-mapper-persistent-data
+    yum:
+      name: device-mapper-persistent-data
+      state: latest
+
+  - name: Install lvm2
+    yum:
+      name: lvm2
+      state: latest
+
+  # Adds Docker's repository to the YUM config manager using a command.
+
+  - name: add repo docker
+    command:
+      cmd: sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+  # Installs Docker (docker-ce) using YUM, ensuring it is present on the system.
+
+  - name: Install Docker
+    yum:
+      name: docker-ce
+      state: present
+
+  # Installs Python 3 using YUM, ensuring it is present on the system.
+
+  - name: Install python3
+    yum:
+      name: python3
+      state: present
+
+# Installs Docker Python module using Python's pip3 installer.
+
+  - name: Install docker with Python 3
+    pip:
+      name: docker
+      executable: pip3
+      #Sets the Python interpreter to Python3 for Ansible.
+    vars:
+      ansible_python_interpreter: /usr/bin/python3
+
+# Ensures the Docker service is running.
+  - name: Make sure Docker is running
+    service: name=docker state=started
+    tags: docker
+```
+
+The prévious playbook permit to install all prerequisite to execute docker container
+
+```yml
+- name: Deploy Proxy
+  docker_container:
+    name: httpd
+    image: spitii/devops-httpd:master
+    recreate: true #recreates the container if it already exists.
+    pull: true #Use only last version of image and not the last download.
+    networks: #attaches it to 'Back-end' and 'Front-end' networks.
+      - name: Back-end
+      - name: Front-end
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "Caddy:/config"
+    env:
+      URL: "https://matthieu.lapetitte.takima.cloud:443"
+      FRONTEND_NAME: "frontend"
+      BACKEND_NAME: "backend"
+```
+
+The previous task is to deploy the last proxy to the destination server.
+
