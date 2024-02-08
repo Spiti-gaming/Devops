@@ -7,4 +7,4 @@
     networks:
       - name: Front-end
     env:
-      VUE_APP_API_URL: "https://matthieu.lapetitte.takima.cloud:443/api"
+      VUE_APP_API_URL: "http://matthieu.lapetitte.takima.cloud:80/api"

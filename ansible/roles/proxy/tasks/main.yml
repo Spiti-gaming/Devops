@@ -13,6 +13,6 @@
     volumes:
       - "Caddy:/config"
     env:
-      URL: "https://matthieu.lapetitte.takima.cloud:443 http//matthieu.lapetitte.takima.cloud:80"
+      URL: "https://matthieu.lapetitte.takima.cloud:443"
       FRONTEND_NAME: "frontend"
       BACKEND_NAME: "backend"
