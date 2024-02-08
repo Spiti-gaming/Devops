@@ -2,10 +2,6 @@
   docker_volume:
     name: DataBase
 
-- name: Create Caddy Volume
-  docker_volume:
-    name: Caddy
-
 - name: Create Database network
   docker_network:
     name: DataBase
