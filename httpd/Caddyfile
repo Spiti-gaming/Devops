@@ -9,11 +9,3 @@ key_type rsa4096
     }
     reverse_proxy /* {$FRONTEND_NAME}:80
 }
-
-http//matthieu.lapetitte.takima.cloud:80 {
-     route /api/* {
-            uri strip_prefix /api
-            reverse_proxy /* {$BACKEND_NAME}:8080
-     }
-     reverse_proxy /* {$FRONTEND_NAME}:80
- }
